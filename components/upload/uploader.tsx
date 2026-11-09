@@ -79,7 +79,7 @@ export function Uploader() {
         onDragLeave={() => setDragging(false)}
         onDrop={(e) => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files[0]); }}
         className={`grid cursor-pointer place-items-center gap-3 rounded-card border-2 border-dashed px-6 py-12 text-center transition-colors ${
-          dragging ? "border-violet bg-violet-soft" : "border-rule-strong bg-sheet hover:border-ink-3"
+          dragging ? "border-ink bg-paper" : "border-rule-strong bg-sheet hover:border-ink-3"
         } ${busy ? "pointer-events-none opacity-70" : ""}`}>
         <FileUp size={28} strokeWidth={1.6} className="text-ink-3" aria-hidden="true" />
         <span className="text-[16px] font-semibold">Drop a resume here, or <span className="text-ink underline decoration-rule-strong hover:decoration-ink">choose a file</span></span>
