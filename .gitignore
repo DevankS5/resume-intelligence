@@ -40,3 +40,4 @@ Thumbs.db
 .vercel
 CLAUDE.md
 CLAUDE.local.md
+.vitest/

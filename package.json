@@ -1,0 +1,48 @@
+{
+  "name": "resume-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-first resume screening for two job profiles: LLM extraction, deterministic versioned scoring, HR review.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "inspect:dataset": "tsx scripts/inspect-dataset/index.ts",
+    "import:batch": "tsx --env-file=.env.local scripts/import-batch/index.ts",
+    "report:quality": "tsx --env-file=.env.local scripts/reports/index.ts",
+    "admin:create-user": "tsx --env-file=.env.local scripts/admin/create-hr-user.ts",
+    "reprocess": "tsx --env-file=.env.local scripts/reprocess/index.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^3.0.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.0",
+    "lucide-react": "^1.70.0",
+    "mammoth": "^1.13.0",
+    "next": "^16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "unpdf": "^2.1.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jszip": "^3.10.2",
+    "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

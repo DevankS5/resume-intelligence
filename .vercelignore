@@ -1,0 +1,11 @@
+# Never upload candidate data or local secrets to the build.
+Software Development Assignment Resumes/
+*.docx
+*.pdf
+.env*
+!.env.example
+.impeccable/
+.vitest/
+node_modules/
+.next/
+tests/
