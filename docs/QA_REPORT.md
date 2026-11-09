@@ -6,9 +6,9 @@ Status as of 2026-11-09. Items are marked **Verified** only when a test, a build
 
 | Suite | Tests | Covers |
 |---|---:|---|
-| `tests/unit/experience.test.ts` | 22 | date precision, inclusive end month, fixed reference month, overlap merge, academic ≠ professional, excluded partial dates |
-| `tests/unit/scoring.test.ts` | 24 | rubric totals and rejection, multipliers, OpenLCA ≠ GaBi/SimaPro, skills-list capping, unverifiable claims → Uncertain, visual-design cap, emissions ≠ LCA project, 2-year vs 4-year scenarios, determinism, logistics as confirmations, all routing rules, tie-breaks, stated project counts |
-| `tests/unit/extraction.test.ts` | 13 | quote verification and locators, fabricated quote rejected, quote text never rewritten, schema rejects invented fields, prompt-injection boundary, weights withheld from the model, tool aliases, normalization |
+| `tests/unit/experience.test.ts` | 21 | date precision, inclusive end month, fixed reference month, overlap merge, academic ≠ professional, excluded partial dates |
+| `tests/unit/scoring.test.ts` | 30 | rubric totals and rejection, multipliers, OpenLCA ≠ GaBi/SimaPro, skills-list capping, unverifiable claims → Uncertain, visual-design cap, emissions ≠ LCA project, 2-year vs 4-year scenarios, determinism, logistics as confirmations, all routing rules, tie-breaks, stated project counts |
+| `tests/unit/extraction.test.ts` | 12 | quote verification and locators, fabricated quote rejected, quote text never rewritten, schema rejects invented fields, prompt-injection boundary, weights withheld from the model, tool aliases, normalization |
 | `tests/unit/parsers.test.ts` | 8 | content sniffing, MIME mismatch, paragraph and table-cell locators, embedded-object reporting, empty documents |
 | `tests/unit/seed.test.ts` | 1 | database rubric seed equals the TypeScript config |
 | `tests/integration/analyze.test.ts` | 4 | full analysis path on a synthetic resume: injection ignored and flagged, fabricated EPD quote excluded, `javascript:` link dropped, model-supplied score ignored, identical input → identical persistence bundle |
