@@ -13,9 +13,9 @@ const table = (rows: Record<string, number>) => Object.entries(rows).sort().map(
 
 async function main() {
   const db = adminClient();
-  const { data: resumes } = await db.from("resume_documents").select("id, processing_status, last_error_code, source_documents(source_metadata)");
-  const { data: profiles } = await db.from("candidate_profiles").select("resume_id, normalized_profile, extraction_quality, classification").eq("is_current", true);
-  const { data: assessments } = await db.from("candidate_assessments").select("score_band, review_flags, jobs(job_key), candidate_profiles!inner(is_current)").eq("candidate_profiles.is_current", true);
+  const { data: resumes } = await db.from("resume_documents").select("id, processing_status, last_error_code, source_documents(source_metadata), candidates!inner(archived_at)").is("candidates.archived_at", null);
+  const { data: profiles } = await db.from("candidate_profiles").select("resume_id, normalized_profile, extraction_quality, classification, candidates!inner(archived_at)").eq("is_current", true).is("candidates.archived_at", null);
+  const { data: assessments } = await db.from("candidate_assessments").select("score_band, review_flags, jobs(job_key), candidate_profiles!inner(is_current), candidates!inner(archived_at)").eq("candidate_profiles.is_current", true).is("candidates.archived_at", null);
   const { data: reviews } = await db.from("review_events").select("id");
 
   const initial = (resumes ?? []).filter((r) => (r.source_documents as unknown as { source_metadata: { batch?: string } }).source_metadata?.batch === "initial-47");
