@@ -52,6 +52,17 @@ All fixtures are synthetic; no candidate data is in the repository.
 | Same file uploaded again | Verified: "already uploaded as CAND-0049. No duplicate was created." |
 | Clean-up | Both synthetic records archived (kept for audit), rankings rebuilt to the real 46 |
 
+### Design finish review (Impeccable, independent reviewer)
+
+Captured from a clean DevTools browser against production: desktop at 1536 and 1280, phone at 390x844 (DPR 2). No page-level horizontal overflow at 390.
+
+| Round | Disposition | Outcome |
+|---|---|---|
+| 1 | fix (8 material findings) | Criteria columns hidden below 1536 px and total shown first; score clipped on phones; hover-only abbreviations; violet spent on ordinary links; ruled form stock unbuilt; ragged phone filters; misaligned overview gutters; tall phone strip |
+| 2 | fix | 6 of 8 resolved; sheet still 84 px too wide at 1280; new stamp rotation read as a costume; Rank/Candidate headers touching |
+| 3 | ship | All scored fixes resolved; at 1280 the table scroll width equals its container (956 px) |
+
+Not visually reviewed: sign-in, methodology, the All records list and the review form (source-only).
+
 ### Still unverified
-- Phone-width layout (the browser window could not be resized); layouts use responsive breakpoints but were not looked at.
 - A signed-in account without an HR role (creating one needs a role grant made by the owner).
