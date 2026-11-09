@@ -39,3 +39,9 @@ ADR-001 to ADR-007 are adopted as written in [spec/HLD.md §12](spec/HLD.md). Th
 ## ADR-013 — Rubric seed is generated from TypeScript and drift-tested
 
 **Decision.** `packages/domain/rubrics.ts` is the single source of truth. The seed migration is generated from it, and a unit test fails if the committed SQL differs from the generator's output.
+
+## ADR-014 — Reprocessing replays stored model output instead of calling the model again
+
+**Context.** The first real run showed the model sometimes uses `suspiciousContent` to note garbled text, so the "text addressed to an automated reader" flag over-claimed manipulation (CAND-0026). The fix changes quality and flag wording, which are stored with each profile and assessment version.
+**Decision.** `npm run reprocess` replays each current profile's stored raw model output through the same `analyzeResume` path with a replay provider, writing new extraction, profile and assessment versions (normalization `norm-1.1.0`, scoring `scoring-1.1.0`) and new ranking snapshots. No LLM call, so results stay attributed to the original model and cost nothing.
+**Trade-off.** The replay writes a new `document_extractions` row carrying the same raw output (the bundle function keys reuse on prompt/schema/model/normalization). Accepted: it keeps every profile version linked to the exact output it was built from.

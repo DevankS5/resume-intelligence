@@ -76,7 +76,7 @@ describe("analyzeResume (synthetic fixture)", () => {
     expect(state("benchmarking_epd")).toBe("UNCERTAIN"); // fabricated quote rejected
     expect(lca.score).toBe(90); // minus 5 (fabricated EPD quote) and 5 (no stakeholder evidence)
     expect(lca.mandatory.find((m) => m.key === "three_projects")!.status).toBe("ESTABLISHED"); // "Completed 4 ... LCA studies"
-    expect(lca.reviewFlags.join()).toMatch(/automated reader/);
+    expect(lca.reviewFlags.join()).toMatch(/unusual content/);
 
     expect(ux.criteria.find((c) => c.key === "figma_prototyping")!.state).toBe("RELATED"); // skills list only
     expect(ux.score).toBe(10);

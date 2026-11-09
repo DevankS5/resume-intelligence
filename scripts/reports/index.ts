@@ -60,7 +60,7 @@ ${table(tally((resumes ?? []).filter((r) => r.last_error_code).map((r) => r.last
 | Schema-valid extractions | ${ps.length} | profiles (invalid output never becomes a profile) |
 | Evidence quotes verified in source | ${pct(ev.v, ev.t)} (${ev.v}/${ev.t}) | all quotes returned by the model |
 | Relevant roles with month-precise dates | ${pct(roles.length - dateIssues, roles.length)} (${roles.length - dateIssues}/${roles.length}) | relevant or professional roles |
-| Profiles with text addressed to an automated reader | ${injections} | profiles |
+| Profiles with unusual content noted (instructions or garbled text) | ${injections} | profiles |
 | Manual review events recorded | ${(reviews ?? []).length} | all review events |
 
 | Quality status | Count |

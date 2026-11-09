@@ -39,7 +39,7 @@ export function assessRole(
   // Weights are integers and multipliers are 0/0.5/1, so this sum is exact.
   const score = criteria.reduce((s, c) => s + c.points, 0);
   const reviewFlags = criteria.filter((c) => c.reviewRequired).map((c) => `${c.label}: uncertain evidence`);
-  if (profile.suspiciousContent.length > 0) reviewFlags.push("Resume contains text addressed to an automated reader (ignored).");
+  if (profile.suspiciousContent.length > 0) reviewFlags.push("Extractor noted unusual content (instructions to a reader or garbled text); check the original.");
   const unassessable = quality.status === "UNASSESSABLE";
   return {
     jobKey,

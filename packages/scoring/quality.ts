@@ -36,8 +36,10 @@ export function assessQuality(parsed: ParsedDocument, profile: NormalizedProfile
   add("dates", "Date validity", relevant.length === 0 ? "NOT_APPLICABLE" : badDates === 0 ? "PASS" : badDates <= 1 ? "WARNING" : "FAIL",
     relevant.length === 0 ? "No dated experience." : `${relevant.length - badDates} of ${relevant.length} relevant roles have month-precise dates.`);
 
-  add("injection", "Manipulation check", profile.suspiciousContent.length ? "WARNING" : "PASS",
-    profile.suspiciousContent.length ? "Text addressed to an automated reader was found and ignored." : "No instructions to automated readers found.");
+  add("injection", "Unusual content", profile.suspiciousContent.length ? "WARNING" : "PASS",
+    profile.suspiciousContent.length
+      ? `Extractor note (never acted on): ${profile.suspiciousContent.join(" ").slice(0, 200)}`
+      : "No instructions to automated readers or garbled passages noted.");
 
   const fails = checks.filter((c) => c.status === "FAIL").length;
   const warns = checks.filter((c) => c.status === "WARNING").length;
