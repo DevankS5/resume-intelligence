@@ -31,6 +31,13 @@ export function Uploader() {
     if (!file || busy) return;
     if (!/\.(docx|pdf)$/i.test(file.name)) return setPhase({ kind: "error", message: "Choose a .docx file or a text-based PDF." });
     if (file.size > MAX) return setPhase({ kind: "error", message: "The file is larger than the 5 MB limit." });
+    // Fast feedback only; the server re-checks the stored bytes and is the authority.
+    const head = new Uint8Array(await file.slice(0, 5).arrayBuffer());
+    const zip = head[0] === 0x50 && head[1] === 0x4b && head[2] === 0x03 && head[3] === 0x04;
+    const pdf = String.fromCharCode(...head) === "%PDF-";
+    if (/\.docx$/i.test(file.name) ? !zip : !pdf) {
+      return setPhase({ kind: "error", message: "The file's contents do not match its extension. Export it again as .docx or PDF." });
+    }
     try {
       setPhase({ kind: "working", step: "Checking the file" });
       const intent = await post("/api/resumes/upload-intent", { filename: file.name, byteSize: file.size, sha256: await sha256Hex(file) });
