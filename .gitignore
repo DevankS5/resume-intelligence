@@ -1,0 +1,42 @@
+# Candidate data is Restricted (docs/spec/SECURITY.md §2.1): never commit it.
+/Software Development Assignment Resumes/
+/data/
+*.docx
+*.pdf
+!tests/fixtures/**/*.docx
+!tests/fixtures/**/*.pdf
+
+# Generated import artefacts can contain resume text
+/.import/
+/reports/out/
+
+# Dependencies and builds
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Tests
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Env and secrets: only the example is tracked
+.env*
+!.env.example
+
+# Supabase local
+supabase/.temp/
+supabase/.branches/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.vercel
+CLAUDE.md
+CLAUDE.local.md
