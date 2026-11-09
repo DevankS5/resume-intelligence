@@ -191,7 +191,10 @@ export default async function CandidatePage({ params, searchParams }: { params: 
               {p!.portfolioUrls.length > 0 && (
                 <>
                   <h3 className="mt-4 text-[13px] font-semibold text-ink-3">Portfolio links (not reviewed by the system)</h3>
-                  <ul className="mt-1 text-[13px]">{p!.portfolioUrls.map((u) => <li key={u}><a href={u} rel="noopener noreferrer nofollow" target="_blank" className="break-all text-violet underline">{u}</a></li>)}</ul>
+                  <ul className="mt-1 text-[13px]">{p!.portfolioUrls.map((u) => {
+                    const href = safeHref(u);
+                    return <li key={u}>{href ? <a href={href} rel="noopener noreferrer nofollow" target="_blank" className="break-all text-violet underline">{u}</a> : <span className="break-all">{u}</span>}</li>;
+                  })}</ul>
                 </>
               )}
             </section>
@@ -262,6 +265,16 @@ function Mandatory({ checks, jobKey }: { checks: MandatoryCheck[]; jobKey: JobKe
       </ul>
     </section>
   );
+}
+
+/** Render-time allowlist (normalization already filters; this guards stored data too). */
+function safeHref(u: string): string | null {
+  try {
+    const x = new URL(u);
+    return x.protocol === "https:" || x.protocol === "http:" ? x.href : null;
+  } catch {
+    return null;
+  }
 }
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
