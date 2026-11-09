@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "es2023"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2023"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -13,20 +17,49 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@/*": ["./*"],
-      "@domain/*": ["./packages/domain/*"],
-      "@schemas/*": ["./packages/schemas/*"],
-      "@parsers/*": ["./packages/parsers/*"],
-      "@normalization/*": ["./packages/normalization/*"],
-      "@extraction/*": ["./packages/extraction/*"],
-      "@scoring/*": ["./packages/scoring/*"],
-      "@workflows/*": ["./packages/workflows/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@domain/*": [
+        "./packages/domain/*"
+      ],
+      "@schemas/*": [
+        "./packages/schemas/*"
+      ],
+      "@parsers/*": [
+        "./packages/parsers/*"
+      ],
+      "@normalization/*": [
+        "./packages/normalization/*"
+      ],
+      "@extraction/*": [
+        "./packages/extraction/*"
+      ],
+      "@scoring/*": [
+        "./packages/scoring/*"
+      ],
+      "@workflows/*": [
+        "./packages/workflows/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "Software Development Assignment Resumes"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "Software Development Assignment Resumes"
+  ]
 }

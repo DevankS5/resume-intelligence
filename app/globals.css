@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* Counting Hall: form-stock white on a ruled slate grid, a slate shell rail, and indelible-ink
+   violet reserved for what a person has verified. Light theme by scene: HR reviewers at a desk
+   under office light, reading dense tables for long stretches. */
+@theme {
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #fafbfc;
+  --color-sheet: #ffffff;
+  --color-rule: #dfe5ee;
+  --color-rule-strong: #c3ccda;
+  --color-ink: #152033;
+  --color-ink-2: #3f4b5f;
+  --color-ink-3: #5c6880;
+
+  --color-shell: #1c2940;
+  --color-shell-2: #26365229;
+  --color-shell-ink: #d6dfec;
+  --color-shell-ink-dim: #9fb0c8;
+
+  --color-violet: #5a3a9a;
+  --color-violet-soft: #efe9f9;
+  --color-violet-ink: #3f2672;
+
+  --color-direct: #1d6b47;
+  --color-direct-soft: #e5f3ec;
+  --color-related: #8a5800;
+  --color-related-soft: #fbf1dc;
+  --color-uncertain: #a0322d;
+  --color-uncertain-soft: #fbe9e7;
+  --color-none: #6b778c;
+
+  --radius-chip: 6px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+}
+
+:root {
+  color-scheme: light;
+  accent-color: var(--color-violet);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--color-violet-soft);
+  color: var(--color-violet-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-rule-strong) transparent;
+}
+
+a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The ruled form grid: faint, only behind result sheets. */
+.ruled {
+  background-image: linear-gradient(var(--color-rule) 1px, transparent 1px);
+  background-size: 100% 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
