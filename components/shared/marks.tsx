@@ -5,32 +5,43 @@ const STATE: Record<EvidenceState, { label: string; cls: string; glyph: React.Re
   DIRECT: {
     label: "Direct",
     cls: "text-direct bg-direct-soft",
-    glyph: <rect x="1" y="1" width="10" height="10" rx="2" fill="currentColor" />,
+    glyph: <circle cx="6" cy="6" r="5" fill="currentColor" />,
   },
   RELATED: {
     label: "Related",
     cls: "text-related bg-related-soft",
     glyph: (
       <>
-        <rect x="1.5" y="1.5" width="9" height="9" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M1.5 6h9v2.5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2z" fill="currentColor" />
+        <circle cx="6" cy="6" r="4.4" fill="none" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M1.6 6a4.4 4.4 0 0 0 8.8 0z" fill="currentColor" />
       </>
     ),
   },
   NOT_EVIDENCED: {
     label: "Not evidenced",
     cls: "text-none bg-paper",
-    glyph: <rect x="1.5" y="1.5" width="9" height="9" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />,
+    glyph: <circle cx="6" cy="6" r="4.4" fill="none" stroke="currentColor" strokeWidth="1.4" />,
   },
   UNCERTAIN: {
     label: "Uncertain",
     cls: "text-uncertain bg-uncertain-soft",
-    glyph: <rect x="1.5" y="1.5" width="9" height="9" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2.2 1.6" />,
+    glyph: <circle cx="6" cy="6" r="4.4" fill="none" stroke="currentColor" strokeWidth="1.4" strokeDasharray="2.1 1.5" />,
   },
 };
 
-export function StateMark({ state, compact = false }: { state: EvidenceState; compact?: boolean }) {
+export const EVIDENCE_KEY = (Object.keys(STATE) as EvidenceState[]).map((k) => ({ state: k, label: STATE[k].label }));
+
+/** Seal-like evidence mark. `bare` = glyph only (dense result-sheet cells), label kept for screen readers. */
+export function StateMark({ state, compact = false, bare = false }: { state: EvidenceState; compact?: boolean; bare?: boolean }) {
   const s = STATE[state];
+  if (bare) {
+    return (
+      <span className={s.cls.split(" ")[0]} title={s.label}>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">{s.glyph}</svg>
+        <span className="sr-only">{s.label}</span>
+      </span>
+    );
+  }
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-chip px-1.5 py-0.5 text-[12px] font-semibold ${s.cls}`}>
       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">{s.glyph}</svg>
@@ -97,6 +108,17 @@ export function ReviewMark({ status }: { status: string }) {
         {human ? <circle cx="5" cy="5" r="4" fill="currentColor" /> : <circle cx="5" cy="5" r="3.5" fill="none" stroke="currentColor" strokeWidth="1.3" />}
       </svg>
       {REVIEW_LABEL[status] ?? status}
+    </span>
+  );
+}
+
+/** A counting-hall stamp: a state that is recorded, never hidden (Failed, Needs review). */
+export function Stamp({ tone, children }: { tone: "fail" | "review"; children: React.ReactNode }) {
+  return (
+    <span className={`inline-block -rotate-2 rounded-chip border-2 px-1.5 py-px text-[11px] font-extrabold uppercase tracking-[0.06em] ${
+      tone === "fail" ? "border-uncertain text-uncertain" : "border-related text-related"
+    }`}>
+      {children}
     </span>
   );
 }
