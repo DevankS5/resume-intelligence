@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, TriangleAlert } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { RUBRICS, LCA_EXPERIENCE_SCENARIOS, ACTIVE_LCA_SCENARIO } from "@domain/rubrics";
 import { hrMessage } from "@domain/errors";
 import type { JobKey } from "@domain/types";
 import { getOverview, getRanking, type RankingRow } from "@/lib/data/queries";
-import { BAND_LABEL, CLASS_LABEL, ScoreBar, STATUS_LABEL } from "@/components/shared/marks";
+import { BAND_LABEL, CLASS_LABEL, ScoreBar, Stamp } from "@/components/shared/marks";
 
 export const metadata: Metadata = { title: "Overview" };
 export const dynamic = "force-dynamic";
@@ -37,7 +37,7 @@ export default async function Dashboard() {
       )}
 
       {rows.length > 0 && (
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.4fr]">
+        <div className="grid gap-6 xl:grid-cols-2">
           <section aria-labelledby="class-h" className="rounded-card border border-rule bg-sheet p-5">
             <h2 id="class-h" className="text-[16px] font-bold">Cross-role routing</h2>
             <p className="mt-1 text-[13px] text-ink-3">Labels route attention. None of them rejects a candidate.</p>
@@ -63,10 +63,7 @@ export default async function Dashboard() {
                     <Link href={`/candidates/${r.candidate_id}`} className="w-24 font-semibold text-ink underline decoration-rule-strong hover:decoration-ink">
                       {r.candidate_ref}
                     </Link>
-                    <span className="flex items-center gap-1.5 text-[13px] font-semibold">
-                      <TriangleAlert size={14} className={r.processing_status === "FAILED" ? "text-uncertain" : "text-related"} aria-hidden="true" />
-                      {STATUS_LABEL[r.processing_status] ?? r.processing_status}
-                    </span>
+                    <Stamp tone={r.processing_status === "FAILED" ? "fail" : "review"}>{r.processing_status === "FAILED" ? "Failed" : "Needs review"}</Stamp>
                     <span className="min-w-0 flex-1 basis-60 text-[13px] text-ink-2">
                       {r.last_error_code ? hrMessage(r.last_error_code) : "Extraction quality is low; check the evidence against the original."}
                       <span className="block truncate text-ink-3">{r.display_reference}</span>
@@ -150,7 +147,7 @@ function EmptyState() {
       <h2 className="text-[18px] font-bold">No records yet</h2>
       <p className="mt-2 max-w-2xl text-ink-2">
         The initial 47-resume dataset is loaded by an administrator with the import tool. You can also{" "}
-        <Link href="/uploads" className="font-semibold text-violet underline">upload a single resume</Link>; it is processed the same way.
+        <Link href="/uploads" className="font-semibold text-ink underline decoration-rule-strong hover:decoration-ink">upload a single resume</Link>; it is processed the same way.
       </p>
     </section>
   );

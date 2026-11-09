@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { hrMessage } from "@domain/errors";
 import { getOverview } from "@/lib/data/queries";
-import { CLASS_LABEL, QUALITY_LABEL, ReviewMark, STATUS_LABEL, fmt } from "@/components/shared/marks";
+import { CLASS_LABEL, QUALITY_LABEL, ReviewMark, Stamp, STATUS_LABEL, fmt } from "@/components/shared/marks";
 
 export const metadata: Metadata = { title: "All records" };
 export const dynamic = "force-dynamic";
@@ -53,10 +53,10 @@ export default async function CandidatesPage({ searchParams }: { searchParams: P
               <tr key={r.candidate_id} className="border-t border-rule hover:bg-paper/70">
                 <td className="py-2.5 pl-4"><Link href={`/candidates/${r.candidate_id}`} className="font-semibold underline decoration-rule-strong hover:decoration-ink">{r.candidate_ref}</Link></td>
                 <td className="max-w-[240px] truncate py-2.5 text-[13px] text-ink-2" title={r.display_reference}>
-                  {r.display_reference}{r.batch !== "initial-47" && <span className="ml-1.5 rounded-chip bg-violet-soft px-1.5 text-[11px] font-semibold text-violet-ink">Upload</span>}
+                  {r.display_reference}{r.batch !== "initial-47" && <span className="ml-1.5 rounded-chip border border-rule-strong px-1.5 text-[11px] font-semibold text-ink-2">Upload</span>}
                 </td>
                 <td className="py-2.5 text-[13px]">
-                  <span className={r.processing_status === "FAILED" ? "font-semibold text-uncertain" : ""}>{STATUS_LABEL[r.processing_status] ?? r.processing_status}</span>
+                  {r.processing_status === "FAILED" ? <Stamp tone="fail">Failed</Stamp> : <span>{STATUS_LABEL[r.processing_status] ?? r.processing_status}</span>}
                   {r.last_error_code && <span className="block text-[12px] text-ink-3">{hrMessage(r.last_error_code)}</span>}
                 </td>
                 <td className="py-2.5 text-right font-semibold tabular">{r.lca_score == null ? "–" : fmt(r.lca_score)}</td>

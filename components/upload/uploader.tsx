@@ -82,7 +82,7 @@ export function Uploader() {
           dragging ? "border-violet bg-violet-soft" : "border-rule-strong bg-sheet hover:border-ink-3"
         } ${busy ? "pointer-events-none opacity-70" : ""}`}>
         <FileUp size={28} strokeWidth={1.6} className="text-ink-3" aria-hidden="true" />
-        <span className="text-[16px] font-semibold">Drop a resume here, or <span className="text-violet underline">choose a file</span></span>
+        <span className="text-[16px] font-semibold">Drop a resume here, or <span className="text-ink underline decoration-rule-strong hover:decoration-ink">choose a file</span></span>
         <span className="text-[13px] text-ink-3">.docx or text-based PDF, up to 5 MB. Scanned PDFs are flagged, not guessed.</span>
         <input ref={input} type="file" accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           className="sr-only" disabled={busy} onChange={(e) => { handle(e.target.files?.[0]); e.target.value = ""; }} />
@@ -102,7 +102,7 @@ export function Uploader() {
                 ? <>This exact file was already uploaded as <b>{phase.ref}</b>. No duplicate was created.</>
                 : <><b>{phase.ref}</b> was scored for both roles{phase.status === "REVIEW_REQUIRED" ? " and flagged for review" : ""}. Both rankings are updated.</>}
             </span>
-            <Link href={`/candidates/${phase.candidateId}`} className="font-semibold text-violet underline">Open candidate</Link>
+            <Link href={`/candidates/${phase.candidateId}`} className="font-semibold text-ink underline decoration-rule-strong hover:decoration-ink">Open candidate</Link>
           </div>
         )}
         {phase.kind === "error" && (

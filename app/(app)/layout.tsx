@@ -11,7 +11,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="lg:flex">
       <Rail email={user.email} />
-      <div className="min-w-0 flex-1">
+      <div className="ruled min-h-dvh min-w-0 flex-1">
         <BallotStrip a={account} />
         <main className="mx-auto max-w-[1400px] px-5 py-8 lg:px-8">{children}</main>
       </div>

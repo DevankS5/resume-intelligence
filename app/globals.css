@@ -79,10 +79,11 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-/* The ruled form grid: faint, only behind result sheets. */
+/* Ruled form stock behind the sheets: faint slate-blue lines on the paper ground. Never inside tables. */
 .ruled {
-  background-image: linear-gradient(var(--color-rule) 1px, transparent 1px);
-  background-size: 100% 40px;
+  background-color: var(--color-paper);
+  background-image: linear-gradient(color-mix(in srgb, var(--color-rule) 45%, transparent) 1px, transparent 1px);
+  background-size: 100% 24px;
 }
 
 @media (prefers-reduced-motion: reduce) {
