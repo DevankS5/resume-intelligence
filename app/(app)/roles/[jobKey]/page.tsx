@@ -77,13 +77,13 @@ export default async function RolePage({ params, searchParams }: { params: Promi
         </div>
       </form>
 
-      <p className="text-[12.5px] text-ink-3 lg:hidden">Criteria columns appear on wider screens; scroll the table sideways for experience, extraction and review.</p>
+      <p className="text-[12.5px] text-ink-3 lg:hidden">Criteria columns appear on wider screens; scroll the table sideways for experience, extraction and review status.</p>
       <div className="overflow-x-auto rounded-card border border-rule bg-sheet">
-        <table className="w-full min-w-[620px] text-[14px] lg:min-w-[1040px]">
+        <table className="w-full min-w-[620px] text-[14px] lg:min-w-[940px]">
           <caption className="sr-only">{rubric.shortTitle} ranking: criteria as rounds, total last</caption>
           <thead className="bg-paper text-left text-[12px] text-ink-3">
             <tr>
-              <th scope="col" className="w-12 py-2.5 pl-4 font-semibold">Rank</th>
+              <th scope="col" className="w-14 py-2.5 pl-4 pr-3 font-semibold">Rank</th>
               <th scope="col" className="py-2.5 font-semibold">Candidate</th>
               {rubric.criteria.map((c) => (
                 <th key={c.key} scope="col" className="hidden w-10 px-0.5 py-2.5 text-center font-semibold lg:table-cell">
@@ -92,8 +92,7 @@ export default async function RolePage({ params, searchParams }: { params: Promi
               ))}
               <th scope="col" className="hidden py-2.5 pl-4 font-semibold sm:table-cell">Total / 100</th>
               <th scope="col" className="py-2.5 font-semibold">{jobKey === "LCA_CONSULTANT" ? "Verified LCA exp." : "UI/UX exp."}</th>
-              <th scope="col" className="py-2.5 font-semibold">Extraction</th>
-              <th scope="col" className="py-2.5 pr-4 font-semibold">Review</th>
+              <th scope="col" className="py-2.5 pr-4 font-semibold">Extraction / review</th>
             </tr>
           </thead>
           <tbody>
@@ -122,13 +121,12 @@ export default async function RolePage({ params, searchParams }: { params: Promi
                   })}
                   <td className="hidden py-3 pl-4 sm:table-cell"><ScoreBar score={r.score} label="Total" /><span className="mt-0.5 block text-[12px] text-ink-3">{BAND_LABEL[r.score_band]}</span></td>
                   <td className="py-3 tabular text-ink-2">{months(exp(r))}</td>
-                  <td className="py-3 text-[13px]">{QUALITY_LABEL[r.quality_status] ?? r.quality_status}{r.review_flags.length > 0 && <span className="block text-[12px] text-related">{r.review_flags.length} flag{r.review_flags.length > 1 ? "s" : ""}</span>}</td>
-                  <td className="py-3 pr-4"><ReviewMark status={r.review_status} /></td>
+                  <td className="py-3 pr-4 text-[13px]">{QUALITY_LABEL[r.quality_status] ?? r.quality_status}{r.review_flags.length > 0 && <span className="text-[12px] text-related"> · {r.review_flags.length} flag{r.review_flags.length > 1 ? "s" : ""}</span>}<span className="mt-1 block"><ReviewMark status={r.review_status} /></span></td>
                 </tr>
               );
             })}
             {rows.length === 0 && (
-              <tr><td colSpan={6 + rubric.criteria.length} className="px-4 py-10 text-center text-ink-2">
+              <tr><td colSpan={5 + rubric.criteria.length} className="px-4 py-10 text-center text-ink-2">
                 {all.length === 0 ? "No ranking yet." : <>No candidates match these filters. <Link href={`/roles/${jobKey}`} className="font-semibold text-ink underline decoration-rule-strong hover:decoration-ink">Clear filters</Link></>}
               </td></tr>
             )}

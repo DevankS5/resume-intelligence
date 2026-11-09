@@ -115,7 +115,7 @@ export function ReviewMark({ status }: { status: string }) {
 /** A counting-hall stamp: a state that is recorded, never hidden (Failed, Needs review). */
 export function Stamp({ tone, children }: { tone: "fail" | "review"; children: React.ReactNode }) {
   return (
-    <span className={`inline-block -rotate-2 rounded-chip border-2 px-1.5 py-px text-[11px] font-extrabold uppercase tracking-[0.06em] ${
+    <span className={`inline-block rounded-chip border-[1.5px] px-1.5 py-px text-[11px] font-extrabold uppercase tracking-[0.06em] ${
       tone === "fail" ? "border-uncertain text-uncertain" : "border-related text-related"
     }`}>
       {children}
