@@ -17,7 +17,7 @@ ADR-001 to ADR-007 are adopted as written in [spec/HLD.md §12](spec/HLD.md). Th
 
 ## ADR-009 — Gemini for extraction, chosen by the project owner
 
-**Decision.** Google Gemini (`gemini-2.5-flash`, configurable via `GEMINI_MODEL`) with JSON-schema-constrained output and temperature 0. One resume per call, no tools.
+**Decision.** Google Gemini (`gemini-3.1-flash-lite`, configurable via `GEMINI_MODEL`) with JSON-schema-constrained output and temperature 0. One resume per call, no tools.
 **Data use (Security §7.2).** On the Gemini API free tier, Google may use prompts and responses to improve its products; on a billing-enabled (paid) project it does not. Enable billing on the key's Google Cloud project before processing real resumes. The adapter is one file (`packages/extraction/gemini.ts`) behind the `ExtractionProvider` interface, so a provider swap does not touch scoring.
 
 ## ADR-010 — Processing runs in the request's `after()` callback, not a queue service

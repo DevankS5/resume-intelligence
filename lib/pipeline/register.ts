@@ -89,7 +89,9 @@ export async function registerSource(input: {
 /** Creates (or returns) the processing job for this resume under the current versions. */
 export async function ensureProcessingJob(resumeId: string, sha256: string): Promise<string> {
   const db = adminClient();
-  const key = idempotencyKey({ resumeId, sha256, ...VERSIONS });
+  // The extraction model is part of the input identity: a model change is a new run, not a retry.
+  const model = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite";
+  const key = idempotencyKey({ resumeId, sha256, model, ...VERSIONS });
   const { data: existing } = await db.from("processing_jobs").select("id").eq("idempotency_key", key).maybeSingle();
   if (existing) return existing.id;
   const { data, error } = await db.from("processing_jobs")

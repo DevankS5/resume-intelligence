@@ -1,6 +1,6 @@
 // Gemini adapter (ADR-009). The model has no tools: it can only return JSON.
 // Server-only: the key must never reach a browser bundle.
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { PipelineError } from "@domain/errors";
 import { extractionJsonSchema } from "@schemas/extraction";
 import { SYSTEM_PROMPT, buildUserPrompt } from "./prompt";
@@ -15,7 +15,7 @@ const TIMEOUT_MS = 90_000;
 
 export function geminiProvider(
   apiKey = process.env.GEMINI_API_KEY,
-  model = process.env.GEMINI_MODEL || "gemini-2.5-flash",
+  model = process.env.GEMINI_MODEL || "gemini-3.1-flash-lite",
 ): ExtractionProvider {
   if (!apiKey) throw new PipelineError("CONFIGURATION_ERROR", "GEMINI_API_KEY is not set");
   // v1 rejects systemInstruction ("Developer instruction is not enabled"); v1beta supports it.
@@ -36,6 +36,9 @@ export function geminiProvider(
             responseMimeType: "application/json",
             responseJsonSchema: schema,
             temperature: 0,
+            // Gemini 3 thinks by default; on this schema that exceeds the timeout. Extraction is
+            // copying and classifying, not reasoning, so low thinking is enough.
+            ...(model.startsWith("gemini-3") ? { thinkingConfig: { thinkingLevel: ThinkingLevel.LOW } } : {}),
           },
         });
         const timeout = new Promise<never>((_, rej) => {

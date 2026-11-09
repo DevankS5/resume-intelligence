@@ -19,7 +19,7 @@ This creates the schema, RLS policies, private `resumes` bucket, write functions
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | public | publishable key |
 | `SUPABASE_SERVICE_ROLE_KEY` | server only | never prefix with `NEXT_PUBLIC_` |
 | `GEMINI_API_KEY` | server only | use a billing-enabled Google Cloud project (ADR-009) |
-| `GEMINI_MODEL` | server | default `gemini-2.5-flash` |
+| `GEMINI_MODEL` | server | default `gemini-3.1-flash-lite` |
 | `ASSESSMENT_REFERENCE_MONTH` | server | fixed "Present" month for reproducible durations |
 
 Locally these live in `.env.local` (gitignored). On Vercel set them under Project → Settings → Environment Variables.
