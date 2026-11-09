@@ -17,7 +17,8 @@
     "test:e2e": "playwright test",
     "inspect:dataset": "tsx scripts/inspect-dataset/index.ts",
     "import:batch": "tsx --env-file=.env.local scripts/import-batch/index.ts",
-    "report:quality": "tsx --env-file=.env.local scripts/reports/index.ts"
+    "report:quality": "tsx --env-file=.env.local scripts/reports/index.ts",
+    "admin:create-user": "tsx --env-file=.env.local scripts/admin/create-hr-user.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",
