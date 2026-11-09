@@ -4,6 +4,18 @@ Evidence-first resume screening for an HR team reviewing 47 anonymized resumes a
 
 A language model reads each resume and quotes it; deterministic, versioned code scores it. Every point on screen traces to a verbatim passage that was found in the source document, every record (including the one that could not be read) is accounted for, and people make the decisions.
 
+## Live demo
+
+**https://resume-intelligence-pearl.vercel.app**
+
+Reviewer login (read-only HR reviewer role, provided for assessing this assignment):
+
+| Email | Password |
+|---|---|
+| `admin@123` | `tadr-hhoSulTy5Gb` |
+
+The data behind it is the assignment's anonymized resume set. This account can view candidates and record reviews; it cannot import data, change rubrics or reach storage directly. These credentials are published by the project owner's choice for evaluation and will be rotated afterwards.
+
 ## What it does
 
 - **Two independent rankings.** Each candidate is assessed separately for both roles under versioned 9-criterion rubrics, then routed (stronger for LCA, stronger for UI/UX, both, neither evidenced, uncertain). Labels route attention; nothing rejects.

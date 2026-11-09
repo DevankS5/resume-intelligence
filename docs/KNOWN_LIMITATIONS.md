@@ -14,3 +14,4 @@
 | 10 | Jobs run in the request's `after()` callback | A function timeout could interrupt a job | Leases expire and the next status poll or batch run resumes the job | Cron/queue worker |
 | 11 | No retention/deletion workflow is automated | Data persists until removed by an admin | Documented manual deletion path in DEPLOYMENT_GUIDE | Retention job with audit |
 | 12 | Composite (multi-resume) Word documents are not segmented | A future composite source would be treated as one resume | Schema supports segments; ADR-003a | Segmentation adapter per LLD §5 |
+| 13 | Demo reviewer credentials are published in the public README (owner decision for assignment evaluation) | Anyone with the README can read the anonymized candidate data | Account is HR_REVIEWER (read + review notes only); public sign-up grants no access without an app_users row | Rotate the password and remove the README entry after evaluation |
