@@ -46,6 +46,17 @@ async function main() {
   }
   console.log(`Registered ${jobs.length} sources; processing with concurrency ${concurrency}.`);
 
+  // Manual retry (Workflow standard §10.4): requeue failed jobs whose cause was not the document
+  // itself. Unreadable/empty/unsupported files stay FAILED; re-running cannot fix them.
+  if (process.argv.includes("--retry-failed")) {
+    const { data: requeued } = await db.from("processing_jobs")
+      .update({ status: "QUEUED", attempt_count: 0, next_attempt_at: null, lease_owner: null, lease_expires_at: null })
+      .in("id", jobs.map((j) => j.jobId)).eq("status", "FAILED")
+      .not("last_error_code", "in", "(EMPTY_DOCUMENT,UNREADABLE_DOCUMENT,UNSUPPORTED_FORMAT,MIME_MISMATCH,OCR_REQUIRED,FILE_TOO_LARGE)")
+      .select("id");
+    console.log(`Requeued ${requeued?.length ?? 0} failed job(s) for a manual retry.`);
+  }
+
   // Process, then re-attempt jobs parked in RETRY_WAIT (rate limits) until they settle.
   const outcomes = new Map<string, JobOutcome>();
   for (let round = 1; round <= 4; round++) {

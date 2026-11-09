@@ -18,7 +18,8 @@ export function geminiProvider(
   model = process.env.GEMINI_MODEL || "gemini-2.5-flash",
 ): ExtractionProvider {
   if (!apiKey) throw new PipelineError("CONFIGURATION_ERROR", "GEMINI_API_KEY is not set");
-  const ai = new GoogleGenAI({ apiKey });
+  // v1 rejects systemInstruction ("Developer instruction is not enabled"); v1beta supports it.
+  const ai = new GoogleGenAI({ apiKey, apiVersion: "v1beta" });
   const schema = extractionJsonSchema();
 
   return {
@@ -53,6 +54,10 @@ export function geminiProvider(
         const msg = String((e as Error)?.message ?? e);
         if (/429|RESOURCE_EXHAUSTED|quota/i.test(msg)) throw new PipelineError("MODEL_RATE_LIMIT", msg.slice(0, 200));
         if (/timeout|ETIMEDOUT|DEADLINE/i.test(msg)) throw new PipelineError("MODEL_TIMEOUT", msg.slice(0, 200));
+        // A rejected request will be rejected again: fail fast instead of burning retries.
+        if (/"code":\s*40[0-4]|INVALID_ARGUMENT|PERMISSION_DENIED|API_KEY_INVALID/i.test(msg)) {
+          throw new PipelineError("CONFIGURATION_ERROR", msg.slice(0, 200));
+        }
         throw new PipelineError("MODEL_PROVIDER_ERROR", msg.slice(0, 200));
       } finally {
         clearTimeout(timer);
