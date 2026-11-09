@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { assessRole, classify, rank, MULTIPLIERS } from "@scoring/assess";
-import { evaluateCriterion } from "@scoring/criteria";
+import { evaluateCriterion, statedLcaProjectCount } from "@scoring/criteria";
 import { LCA_RUBRIC, UIUX_RUBRIC, validateRubric } from "@domain/rubrics";
 import { crit, ev, HIGH_QUALITY, profile } from "../fixtures/profiles";
 
@@ -131,5 +131,17 @@ describe("rank", () => {
     expect(out.map((r) => r.candidateId)).toEqual(["d", "b", "c", "a"]);
     expect(out[3]!.tieBreak).toBe("candidate reference");
     expect(out.map((r) => r.rankPosition)).toEqual([1, 2, 3, 4]);
+  });
+});
+
+describe("statedLcaProjectCount", () => {
+  it.each([
+    ["Completed 4 cradle-to-gate LCA studies for suppliers", 4],
+    ["Delivered three life cycle assessment projects", 3],
+    ["Led 12+ LCA projects across sectors", 12],
+    ["Collected data from 15 suppliers for an LCA study", 0],
+    ["Supported LCA studies", 0],
+  ])("%s -> %d", (quote, n) => {
+    expect(statedLcaProjectCount([ev(quote)])).toBe(n);
   });
 });

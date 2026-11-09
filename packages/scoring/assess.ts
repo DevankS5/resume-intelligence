@@ -10,7 +10,7 @@ import {
   type LcaScenarioKey,
 } from "@domain/rubrics";
 import { VERSIONS } from "@domain/versions";
-import { completedLcaProjects, evaluateCriterion } from "./criteria";
+import { completedLcaProjects, evaluateCriterion, statedLcaProjectCount } from "./criteria";
 
 export const MULTIPLIERS: Record<EvidenceState, number> = { DIRECT: 1, RELATED: 0.5, NOT_EVIDENCED: 0, UNCERTAIN: 0 };
 
@@ -66,7 +66,8 @@ function confirmation(p: NormalizedProfile, key: string, label: string, item: st
 
 function lcaMandatory(p: NormalizedProfile, criteria: CriterionResult[]): MandatoryCheck[] {
   const sw = criteria.find((c) => c.key === "lca_software")!;
-  const projects = completedLcaProjects(p);
+  const delivery = criteria.find((c) => c.key === "lca_project_delivery")!;
+  const projects = Math.max(completedLcaProjects(p), statedLcaProjectCount(delivery.evidence));
   const english = p.languages.some((l) => /english/i.test(l.name));
   return [
     {
@@ -78,8 +79,8 @@ function lcaMandatory(p: NormalizedProfile, criteria: CriterionResult[]): Mandat
     {
       key: "three_projects", label: "At least three completed LCA projects",
       status: projects >= 3 ? "ESTABLISHED" : "NOT_ESTABLISHED",
-      detail: `${projects} distinct completed LCA project(s) evidenced.`,
-      evidence: [],
+      detail: `${projects} completed LCA project(s) evidenced (distinct project entries or an explicit count in a verified quote).`,
+      evidence: projects > 0 ? delivery.evidence : [],
     },
     confirmation(p, "onsite", "Onsite at Chennai client site", "ONSITE"),
     confirmation(p, "relocation", "Willing to relocate", "RELOCATION"),

@@ -91,8 +91,10 @@ export function evaluateCriterion(
   }
 
   if (key === "lca_project_delivery") {
-    const completed = completedLcaProjects(profile);
-    notes.push(`${completed} distinct completed LCA project(s) identified with verified evidence.`);
+    const listed = completedLcaProjects(profile);
+    const stated = statedLcaProjectCount(evidence);
+    if (listed > 0) notes.push(`${listed} separately described completed LCA project(s).`);
+    if (stated > 0) notes.push(`Resume states ${stated} completed LCA studies/projects.`);
   }
 
   if (key === "visual_design") {
@@ -133,6 +135,28 @@ export function completedLcaProjects(p: NormalizedProfile): number {
     seen.add((pr.title ?? pr.description ?? "").toLowerCase().replace(/\W+/g, " ").trim());
   }
   return seen.size;
+}
+
+const WORD_NUMBERS: Record<string, number> = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12, fifteen: 15, twenty: 20,
+};
+
+/**
+ * Largest explicit count of LCA studies/projects in verified quotes, e.g.
+ * "Completed 4 cradle-to-gate LCA studies" → 4. Counts only numbers that directly
+ * precede LCA vocabulary within a few words, so "15 suppliers" is never a project count.
+ */
+export function statedLcaProjectCount(evidence: VerifiedEvidence[]): number {
+  let max = 0;
+  const re = /\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|twelve|fifteen|twenty)\+?\s+(?:(?!(?:for|from|of|in|with|to|by|on|at|an?|the|across)\b)[\w-]+\s+){0,3}?(?:lca|life[\s-]*cycle(?:\s+assessment)?)\s*(?:stud(?:y|ies)|projects?|assessments?)/gi;
+  for (const e of evidence) {
+    if (!e.verified) continue;
+    for (const m of e.quote.matchAll(re)) {
+      const n = /^\d+$/.test(m[1]!) ? Number(m[1]) : WORD_NUMBERS[m[1]!.toLowerCase()] ?? 0;
+      max = Math.max(max, n);
+    }
+  }
+  return max;
 }
 
 function finish(state: EvidenceState, evidence: VerifiedEvidence[], notes: string[], rationale?: string): CriterionDecision {
