@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BarChart3, FileStack, FlaskConical, Layers, LogOut, Menu, PenTool, Upload, X } from "lucide-react";
-import { browserClient } from "@/lib/supabase/browser";
+import { BarChart3, FileStack, FlaskConical, Layers, Menu, PenTool, Upload, X } from "lucide-react";
 
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: BarChart3 },
@@ -14,16 +13,9 @@ const NAV = [
   { href: "/methodology", label: "Methodology", icon: FlaskConical },
 ];
 
-export function Rail({ email }: { email: string | null }) {
+export function Rail() {
   const path = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-
-  async function signOut() {
-    await browserClient().auth.signOut();
-    router.replace("/sign-in");
-    router.refresh();
-  }
 
   return (
     <>
@@ -60,12 +52,6 @@ export function Rail({ email }: { email: string | null }) {
             );
           })}
         </ul>
-        <div className="mt-auto border-t border-white/10 px-5 py-4 text-[13px]">
-          <p className="truncate text-shell-ink-dim">{email ?? "Signed in"}</p>
-          <button onClick={signOut} className="mt-2 flex items-center gap-2 rounded-control font-semibold text-shell-ink hover:text-white">
-            <LogOut size={15} aria-hidden="true" /> Sign out
-          </button>
-        </div>
       </nav>
     </>
   );
